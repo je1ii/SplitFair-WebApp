@@ -1,0 +1,28 @@
+.not-found-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh; 
+    text-align: center;
+    padding: 2rem;
+}
+
+.not-found-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.not-found-text {
+    margin-bottom: 1rem;
+}
+
+.not-found-link {
+    color: orangered;
+    text-decoration: underline;
+}
+
+.not-found-link:hover {
+  color: orange;
+}

@@ -1,0 +1,41 @@
+.home-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    text-align: center;
+}
+
+.home-content {
+    max-width: 600px;
+}
+
+.home-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+    font-family: 'Times New Roman', serif;
+}
+
+.home-text {
+    font-size: 1.125rem;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.home-email {
+    font-size: 1.125rem;
+    color: orangered;
+    margin-bottom: 1rem;
+}
+
+.home-link {
+    color: white;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.home-link:hover {
+    color: orangered;
+}

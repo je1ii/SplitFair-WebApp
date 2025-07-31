@@ -2,6 +2,8 @@ import { useState } from 'react';
 import ExpenseForm from '../components/ExpenseForm';
 import Dashboard from '../components/Dashboard';
 
+import './Expenses.css';
+
 export default function Expenses() {
   const [showForm, setShowForm] = useState(false);
 
@@ -10,23 +12,21 @@ export default function Expenses() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Shared Expenses</h1>
+    <div className="expenses-container">
+      <h1 className="expenses-title">Expenses</h1>
+      <br></br>
 
-      <button
-        onClick={toggleForm}
-        className="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-      >
+      <button onClick={toggleForm} className="expenses-button">
         {showForm ? 'Close Form' : 'Add Expense'}
       </button>
 
       {showForm && (
-        <div className="mb-6">
+        <div className="expenses-form">
           <ExpenseForm />
         </div>
       )}
 
-      <div className="mb-6">
+      <div className="expenses-dashboard">
         <Dashboard />
       </div>
     </div>

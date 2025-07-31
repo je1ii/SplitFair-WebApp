@@ -2,26 +2,33 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import LogoutButton from './LogoutButton';
 
+import './Navbar.css'
+import logo from '../assets/SplitFair.png';
+
 export default function Navbar() {
   const { user } = useAuth();
 
   return (
-    <nav className="bg-gray-900 text-white px-4 py-3 shadow-md flex justify-between items-center">
-      <div className="text-lg font-semibold">
-        <Link to="/" className="hover:text-blue-400">SplitFair</Link>
+    <nav className="navbar">
+      <div className="navbar-logo">
+        <Link to="/" className="navbar-link">
+          <img src={logo} alt="SplitFair Logo" className="navbar-logo-img" />
+          SplitFair
+        </Link>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="navbar-links">
         {user ? (
           <>
-            <Link to="/expenses" className="hover:text-blue-400">Expenses</Link>
-            <span className="text-sm text-gray-300">{user.email}</span>
+            <Link to="/expenses" className="navbar-link">Expenses</Link>
+            <span className="navbar-user">{user.email}</span>
             <LogoutButton />
           </>
         ) : (
-          <Link to="/login" className="hover:text-blue-400">Login</Link>
+          <Link to="/login" className="navbar-link">Login</Link>
         )}
       </div>
     </nav>
   );
 }
+

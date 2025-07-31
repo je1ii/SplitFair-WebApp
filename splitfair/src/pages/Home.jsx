@@ -1,24 +1,33 @@
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import LogoutButton from '../components/LogoutButton';
+import './Home.css';
 
 export default function Home() {
   const { user } = useAuth();
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Welcome to SplitFair</h1>
-      {user ? (
-        <>
-          <p className="mb-2">You are logged in as <strong>{user.email}</strong></p>
-          <Link to="/expenses" className="text-blue-600 underline">Go to Expenses</Link>
-          <LogoutButton />
-        </>
-      ) : (
-        <>
-          <p>Please <Link to="/login" className="text-blue-600 underline">log in</Link> to start tracking expenses.</p>
-        </>
-      )}
+    <div className="home-container">
+      <div className="home-content">
+        <h1 className="home-title">Welcome to SplitFair</h1>
+        {user ? (
+          <>
+            <p className="home-text">
+              You are logged in as <span className="home-email">{user.email}</span>
+            </p>
+            <Link to="/expenses" className="home-link">
+              Go to Expenses
+              <br></br>
+              <br></br>
+            </Link>
+            <LogoutButton />
+          </>
+        ) : (
+          <p className="home-text">
+            Please <Link to="/login" className="home-link">log in</Link> to start tracking expenses.
+          </p>
+        )}
+      </div>
     </div>
   );
 }

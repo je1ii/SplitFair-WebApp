@@ -1,0 +1,153 @@
+.dashboard-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    width: 1000px;
+    color: black;
+    font-weight: 500;
+}
+
+.dashboard-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: orangered;
+    font-family: 'Times New Roman', serif;
+}
+
+.dashboard-empty {
+    color: #6b7280;
+}
+
+.expense-item {
+    border-bottom: 1px solid white; 
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.expense-item p {
+    margin: 0.25rem 0;
+}
+
+.expense-split {
+    margin-left: 1rem;
+    margin-top: 0.5rem;
+    list-style: none;
+    padding: 0;
+}
+
+.split-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.settled-text {
+    color: orangered;
+    font-weight: 500;
+}
+
+.settle-button {
+    font-size: 0.875rem;
+    color: orangered;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.settle-button.settled {
+    color: orange;
+}
+
+.settle-button:hover {
+    text-decoration: underline;
+}
+
+.receipt-button {
+    margin-top: 0.75rem;
+    margin-left: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    background: orangered;
+    color: white;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+}
+
+.receipt-button:hover {
+    background: orange;
+}
+
+.horizontal-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.expense-left {
+  flex: 1 1 60%;
+}
+
+.expense-right {
+  flex: 1 1 35%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.delete-button {
+  background-color: #dc2626;
+}
+
+.delete-button:hover {
+  background-color: #ef4444;
+}
+
+.full-width {
+  width: 100%;
+  margin-top: 0.75rem;
+}
+
+.button-group {
+    display: flex;
+    align-items: center;
+}
+
+.delete-button {
+    margin-top: 0.75rem;
+    margin-left: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    background: orangered;
+    color: white;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background: #d62828;
+}
+
+.expense-details p {
+  margin: 0.25rem 0;
+  text-align: left;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.expense-tile {
+  background: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+

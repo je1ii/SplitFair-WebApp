@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { db } from '../firebase/config';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { useAuth } from '../context/AuthContext';
+import './ExpenseForm.css';
 
 export default function ExpenseForm() {
   const { user } = useAuth();
@@ -17,15 +18,37 @@ export default function ExpenseForm() {
     setSplits([...splits, { name: '', amount: '' }]);
   };
 
-  const handleSplitChange = (index, field, value) => {
+  const handleRemoveSplit = (index) => {
     const updated = [...splits];
-    updated[index][field] = field === 'amount' ? parseFloat(value) : value;
+    updated.splice(index, 1);
     setSplits(updated);
   };
 
+  const handleSplitChange = (index, field, value) => {
+    const updated = [...splits];
+    updated[index][field] = field === 'amount' ? parseFloat(value) || '' : value;
+    setSplits(updated);
+  };
+
+  const totalSplitAmount = splits.reduce((sum, split) => {
+    return sum + (parseFloat(split.amount) || 0);
+  }, 0);
+
+  const allFieldsFilled =
+    title.trim() &&
+    desc.trim() &&
+    payer.trim() &&
+    amount &&
+    category.trim() &&
+    splits.every((s) => s.name.trim() && s.amount);
+
+  const amountMatch = parseFloat(amount) === totalSplitAmount;
+
+  const isFormValid = allFieldsFilled && amountMatch;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!user) return;
+    if (!user || !isFormValid) return;
 
     const expenseData = {
       title,
@@ -34,10 +57,9 @@ export default function ExpenseForm() {
       amount: parseFloat(amount),
       category,
       createdAt: serverTimestamp(),
+      createdBy: user.uid,
       splits: splits.reduce((acc, { name, amount }) => {
-        if (name && amount) {
-          acc[name] = { amount, settled: false };
-        }
+        acc[name] = { amount: parseFloat(amount), settled: false };
         return acc;
       }, {}),
     };
@@ -54,66 +76,75 @@ export default function ExpenseForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 bg-white p-4 rounded shadow">
-      <div>
-        <label className="block font-medium">Title</label>
-        <input value={title} onChange={(e) => setTitle(e.target.value)} className="w-full p-2 border rounded" />
+    <form onSubmit={handleSubmit} className="expense-form">
+      <div className="form-group">
+        <label>Title</label>
+        <input value={title} onChange={(e) => setTitle(e.target.value)} />
       </div>
 
-      <div>
-        <label className="block font-medium">Description</label>
-        <input value={desc} onChange={(e) => setDesc(e.target.value)} className="w-full p-2 border rounded" />
+      <div className="form-group">
+        <label>Description</label>
+        <input value={desc} onChange={(e) => setDesc(e.target.value)} />
       </div>
 
-      <div>
-        <label className="block font-medium">Payer</label>
-        <input value={payer} onChange={(e) => setPayer(e.target.value)} className="w-full p-2 border rounded" />
+      <div className="form-group">
+        <label>Payer</label>
+        <input value={payer} onChange={(e) => setPayer(e.target.value)} />
       </div>
 
-      <div>
-        <label className="block font-medium">Total Amount</label>
+      <div className="form-group">
+        <label>Total Amount</label>
         <input
           type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className="w-full p-2 border rounded"
         />
       </div>
 
-      <div>
-        <label className="block font-medium">Category</label>
-        <input
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="w-full p-2 border rounded"
-        />
+      <div className="form-group">
+        <label>Category</label>
+        <input value={category} onChange={(e) => setCategory(e.target.value)} />
       </div>
 
-      <div>
-        <label className="block font-medium">Splits</label>
-        {splits.map((split, index) => (
-          <div key={index} className="flex gap-2 mb-2">
-            <input
-              placeholder="Name"
-              value={split.name}
-              onChange={(e) => handleSplitChange(index, 'name', e.target.value)}
-              className="w-1/2 p-2 border rounded"
-            />
-            <input
-              type="number"
-              placeholder="Amount"
-              value={split.amount}
-              onChange={(e) => handleSplitChange(index, 'amount', e.target.value)}
-              className="w-1/2 p-2 border rounded"
-            />
-          </div>
-        ))}
-        <button type="button" onClick={handleAddSplit} className="text-sm text-blue-600 hover:underline">
-          + Add Split
-        </button>
+      <div className="form-group-column">
+        <label>Splits</label>
+        <div className="splits-list">
+          {splits.map((split, index) => (
+            <div key={index} className="split-group">
+              <input
+                placeholder="Name"
+                value={split.name}
+                onChange={(e) => handleSplitChange(index, 'name', e.target.value)}
+              />
+              <input
+                type="number"
+                placeholder="Amount"
+                value={split.amount}
+                onChange={(e) => handleSplitChange(index, 'amount', e.target.value)}
+              />
+              {splits.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => handleRemoveSplit(index)}
+                  className="remove-split-btn"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+          ))}
+          <button type="button" onClick={handleAddSplit} className="add-split-btn">
+            + Add Split
+          </button>
+        </div>
       </div>
 
-      <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+      <div className="split-total-warning">
+        Split Total: ₱{totalSplitAmount.toFixed(2)}{' '}
+        {!amountMatch && <span style={{ color: 'red' }}>(Must equal ₱{amount || '0.00'})</span>}
+      </div>
+
+      <button type="submit" className="submit-btn" disabled={!isFormValid}>
         Add Expense
       </button>
     </form>
